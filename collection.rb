@@ -1,5 +1,6 @@
 require_relative 'project'
 require_relative 'die'
+require_relative 'funding_round'
 
 class Collection
 
@@ -19,13 +20,7 @@ class Collection
     end
 
     @collection.each do |project|
-      die = Die.new
-      number_rolled = die.roll
-        if number_rolled.even?
-          project.add_funds
-        else
-          project.remove_funds
-        end
+        FundingRound.fund_round(project)
         puts project
     end
   end
