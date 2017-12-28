@@ -30,29 +30,38 @@ class Project
   end
 end
 
+class Collection
+
+  def initialize(title)
+    @title = title
+    @collection = []
+  end
+
+  def add_projects(a_project)
+    @collection.push(a_project)
+  end
+
+  def funding_cycle
+    puts "There are #{@collection.size} projects in #{@title.capitalize}"
+
+    @collection.each do |project|
+      puts project
+      project.add_funds
+      project.add_funds
+      project.remove_funds
+      puts project
+    end
+  end
+end
 project1 = Project.new("abc",10000, 1000)
 project2 = Project.new("lmn", 15000, 500)
 project3 = Project.new("xyz", 25000)
+project4 = Project.new("bbb", 50000, 100)
 
- nov_projects = [project1, project2, project3]
- puts "There are #{nov_projects.size} projects active in November"
+collection1 = Collection.new("nov_projects")
+collection1.add_projects(project1)
+collection1.add_projects(project2)
+collection1.add_projects(project3)
+collection1.add_projects(project4)
 
- nov_projects.each do |project|
-   puts project
- end
-
- nov_projects.each do |project|
-   puts project.target
- end
-
- nov_projects.each do |project|
-   project.add_funds
-   project.add_funds
-   project.remove_funds
-   puts project
- end
-
- nov_projects.pop
- project4 = Project.new("bbb", 50000, 100)
- nov_projects.push(project4)
- puts nov_projects
+ collection1.funding_cycle
