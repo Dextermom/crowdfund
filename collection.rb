@@ -1,4 +1,5 @@
 require_relative 'project'
+require_relative 'die'
 
 class Collection
 
@@ -13,13 +14,19 @@ class Collection
 
   def funding_cycle
     puts "There are #{@collection.size} projects in #{@title.capitalize}"
-
     @collection.each do |project|
       puts project
-      project.add_funds
-      project.add_funds
-      project.remove_funds
-      puts project
+    end
+
+    @collection.each do |project|
+      die = Die.new
+      number_rolled = die.roll
+        if number_rolled.even?
+          project.add_funds
+        else
+          project.remove_funds
+        end
+        puts project
     end
   end
 end

@@ -33,4 +33,22 @@ describe Project do
   it "has a default value of 0 for funding amount" do
     expect(@project.initial).to eq(0)
   end
+
+context "with initial funding equal to target" do
+  before do
+    @project = Project.new("testy", 200,200)
+  end
+  it "is fully funded" do
+    expect(@project).to be_funded
+    end
+  end
+
+  context "with initial funding less than target"do
+    before do
+      @project = Project.new("tester", 200, 100)
+    end
+    it "is underfunded" do
+      expect(@project).not_to be_funded
+      end
+  end
 end

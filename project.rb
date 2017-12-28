@@ -27,6 +27,10 @@ class Project
   def funding_needed
     @target-@initial
   end
+
+  def funded?
+    @initial >= @target
+  end
 end
 
 if __FILE__ == $0
