@@ -1,3 +1,5 @@
+require_relative 'pledge_pool'
+
 class Project
 
   attr_accessor :name
@@ -45,6 +47,12 @@ end
 
   def total_pledges
     @pledges_received.values.reduce(0, :+)
+  end
+
+  def each_pledge_received
+    @pledges_received.each do |name, amount|
+      yield Pledge.new(name, amount)
+    end
   end
 end
 

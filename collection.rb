@@ -44,18 +44,18 @@ class Collection
 
   def print_stats
 
-    @collection.each do |project|
-      project.add_pledges
-    end
-
-    funded, not_funded = @collection.partition {|project| project.funded?}
-
     puts "\n#{@title} Statistics:"
 
     @collection.each do |project|
+      project.add_pledges
       puts "\nProject #{project.name}'s pledge total:"
+        project.each_pledge_received do |pledge|
+          puts "$#{pledge.amount} total #{pledge.name} pledges"
+        end
       puts "$#{project.total_pledges} total pledges."
       end
+
+      funded, not_funded = @collection.partition {|project| project.funded?}
 
     puts "\n#{funded.size} projects are fully funded:"
       funded.each do |project|
@@ -76,7 +76,7 @@ class Collection
       puts "#{formatted_name} $#{project.funding_needed}"
       end
 
-      puts "Total Pledges Received: $#{grand_total_pledges}"
+      puts "\nGrand Total Pledges Received: $#{grand_total_pledges}"
   end
 end
 
