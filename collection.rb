@@ -6,7 +6,7 @@ require_relative 'pledge_pool'
 class Collection
 
   def initialize(title)
-    @title = title
+    @title = title.capitalize
     @collection = []
   end
 
@@ -15,13 +15,13 @@ class Collection
   end
 
   def funding_cycle(rounds)
-    puts "There are #{@collection.size} projects in #{@title.capitalize}"
+    puts "There are #{@collection.size} projects in #{@title}"
     @collection.each do |project|
       puts project
     end
 
     pledges = PledgePool::PLEDGES
-    puts "There are #{pledges.size} possible pledge amounts:"
+    puts "\nThere are #{pledges.size} possible pledge amounts:"
     pledges.each do |pledge|
       puts "A #{pledge.name} pledge is worth $#{pledge.amount}."
     end
@@ -34,23 +34,38 @@ class Collection
     end
   end
 
-  def print_name_and_funding(project)
-    puts "#{project.name} ($#{project.initial})"
+  def grand_total_pledges
+    @collection.reduce(0) {|sum, project| sum + project.total_pledges}
   end
+
+  def print_name_and_funding(project)
+      puts "#{project.name} ($#{project.initial})"
+  end
+
   def print_stats
+
+    @collection.each do |project|
+      project.add_pledges
+    end
+
     funded, not_funded = @collection.partition {|project| project.funded?}
 
     puts "\n#{@title} Statistics:"
 
+    @collection.each do |project|
+      puts "\nProject #{project.name}'s pledge total:"
+      puts "$#{project.total_pledges} total pledges."
+      end
+
     puts "\n#{funded.size} projects are fully funded:"
-    funded.each do |project|
+      funded.each do |project|
       print_name_and_funding(project)
-    end
+      end
 
     puts "\n#{not_funded.size} projects still need funds:"
-    not_funded.each do |project|
+      not_funded.each do |project|
       print_name_and_funding(project)
-    end
+      end
 
     sorted_projects = not_funded.sort {|a,b| b.funding_needed <=> a.funding_needed}
 
@@ -60,8 +75,10 @@ class Collection
       formatted_name = project.name.ljust(20,'.')
       puts "#{formatted_name} $#{project.funding_needed}"
       end
-    end
+
+      puts "Total Pledges Received: $#{grand_total_pledges}"
   end
+end
 
 
 if __FILE__ == $0

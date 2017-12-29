@@ -2,7 +2,7 @@ require_relative 'project'
 require_relative 'collection'
 
 
-project1 = Project.new("abc",10000, 1000)
+project1 = Project.new("abc", 390, 10)
 project2 = Project.new("lmn", 15000, 500)
 project3 = Project.new("xyz", 25000)
 project4 = Project.new("bbb", 50000, 100)

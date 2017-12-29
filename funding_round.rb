@@ -13,6 +13,6 @@ module FundingRound
       project.remove_funds
     end
     pledge = PledgePool.random
-    puts "Project #{project.name} received a #{pledge.name} pledge worth $#{pledge.amount}."
-  end
+    project.receive_pledge(pledge)
+    end
 end

@@ -8,6 +8,7 @@ class Project
     @name = name.upcase
     @target = target
     @initial = initial
+    @pledges_received = Hash.new(0)
   end
 
   def to_s
@@ -24,12 +25,26 @@ class Project
     puts "Project #{@name} lost some funds!"
   end
 
+def add_pledges
+  @initial += @pledges_received.values.reduce(0, :+)
+
+end
   def funding_needed
     @target-@initial
   end
 
   def funded?
     @initial >= @target
+  end
+
+  def receive_pledge(pledge)
+    @pledges_received[pledge.name] += pledge.amount
+    puts "Project #{@name} received a #{pledge.name} pledge worth $#{pledge.amount}."
+    puts "Project #{@name}'s pledges: #{@pledges_received}"
+  end
+
+  def total_pledges
+    @pledges_received.values.reduce(0, :+)
   end
 end
 
