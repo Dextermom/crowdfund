@@ -17,16 +17,16 @@ describe Collection do
   it "add_funds to the project if an even number is rolled" do
     allow_any_instance_of(Die).to receive(:roll).and_return(6)
 
-    @collection.funding_cycle
+    @collection.funding_cycle(2)
 
-    expect(@project.initial).to eq(100+25)
+    expect(@project.initial).to eq(100+25*2)
   end
 
   it "removes funds from the project if an odd number is rolled" do
     allow_any_instance_of(Die).to receive(:roll).and_return(5)
 
-    @collection.funding_cycle
+    @collection.funding_cycle(2)
 
-    expect(@project.initial).to eq(100-15)    
+    expect(@project.initial).to eq(100-15*2)    
   end
 end

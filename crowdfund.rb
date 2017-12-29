@@ -13,4 +13,5 @@ collection1.add_projects(project2)
 collection1.add_projects(project3)
 collection1.add_projects(project4)
 
- collection1.funding_cycle
+ collection1.funding_cycle(3)
+ collection1.print_stats
