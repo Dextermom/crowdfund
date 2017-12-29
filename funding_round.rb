@@ -1,5 +1,6 @@
 require_relative 'project'
 require_relative 'die'
+require_relative 'pledge_pool'
 
 module FundingRound
 
@@ -11,5 +12,7 @@ module FundingRound
     else
       project.remove_funds
     end
+    pledge = PledgePool.random
+    puts "Project #{project.name} received a #{pledge.name} pledge worth $#{pledge.amount}."
   end
 end
