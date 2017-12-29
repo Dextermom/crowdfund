@@ -2,16 +2,21 @@ require_relative 'project'
 require_relative 'collection'
 
 
-project1 = Project.new("abc", 390, 10)
-project2 = Project.new("lmn", 15000, 500)
-project3 = Project.new("xyz", 25000)
-project4 = Project.new("bbb", 50000, 100)
-
 collection1 = Collection.new("nov_projects")
-collection1.add_projects(project1)
-collection1.add_projects(project2)
-collection1.add_projects(project3)
-collection1.add_projects(project4)
+collection1.load_projects(ARGV.shift || "projects.csv")
 
- collection1.funding_cycle(3)
- collection1.print_stats
+loop do
+  puts "\n How many funding rounds? ('quit' to exit)"
+  answer = gets.chomp.downcase
+  case answer
+  when /^\d+$/
+    collection1.funding_cycle(answer.to_i)
+  when 'quit', 'exit'
+    collection1.print_stats
+    break
+  else
+    puts "please enter a number or 'quit'"
+  end
+end
+
+collection1.save_need_funds

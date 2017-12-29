@@ -13,6 +13,11 @@ class Project
     @pledges_received = Hash.new(0)
   end
 
+  def self.from_csv(string)
+    name, target, initial = string.split(',')
+    Project.new(name, Integer(target), Integer(initial))
+  end
+
   def to_s
     "Project #{@name} has $#{@initial} in funding and an outstanding balance of $#{funding_needed} towards a goal of $#{@target}"
   end

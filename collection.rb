@@ -10,6 +10,12 @@ class Collection
     @collection = []
   end
 
+def load_projects(from_file)
+  File.readlines(from_file).each do |line|
+    add_projects(Project.from_csv(line))
+  end
+end
+
   def add_projects(a_project)
     @collection.push(a_project)
   end
@@ -42,6 +48,22 @@ class Collection
       puts "#{project.name} ($#{project.initial})"
   end
 
+  def funding_entry(project)
+    formatted_name = project.name.ljust(20,'.')
+    "#{formatted_name} $#{project.funding_needed}"
+  end
+
+def save_need_funds(to_file="need_funds.txt")
+  funded, not_funded = @collection.partition {|project| project.funded?}
+  sorted_projects = not_funded.sort {|a,b| b.funding_needed <=> a.funding_needed}
+    File.open(to_file, "w") do |file|
+      file.puts "#{@title} in need of funding:'"
+      sorted_projects.each do |project|
+        file.puts funding_entry(project)
+        end
+    end
+end
+
   def print_stats
 
     puts "\n#{@title} Statistics:"
@@ -72,8 +94,7 @@ class Collection
     puts "\n#{sorted_projects.size} projects still needing funding:"
 
     sorted_projects.each do |project|
-      formatted_name = project.name.ljust(20,'.')
-      puts "#{formatted_name} $#{project.funding_needed}"
+      puts funding_entry(project)
       end
 
       puts "\nGrand Total Pledges Received: $#{grand_total_pledges}"
